@@ -1,0 +1,34 @@
+{
+  "name": "@maphew/pi-beads",
+  "version": "0.1.0",
+  "description": "Pi extensions for Beads (bd): inject the live bd prime workflow context and git-authority policy into the system prompt.",
+  "keywords": [
+    "pi-package",
+    "pi",
+    "beads",
+    "bd",
+    "issue-tracker",
+    "agent"
+  ],
+  "license": "MIT",
+  "author": "matt wilkie",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maphew/pi-beads.git"
+  },
+  "homepage": "https://github.com/maphew/pi-beads",
+  "bugs": "https://github.com/maphew/pi-beads/issues",
+  "files": [
+    "extensions",
+    "Readme.md",
+    "LICENSE"
+  ],
+  "pi": {
+    "extensions": [
+      "./extensions/beads-prime.ts"
+    ]
+  },
+  "peerDependencies": {
+    "@earendil-works/pi-coding-agent": "*"
+  }
+}
