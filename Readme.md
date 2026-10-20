@@ -13,6 +13,9 @@ itself.
 | --- | --- |
 | `beads-prime` | Injects live `bd prime` context into the system prompt |
 | `beads-status` | Shows active bead + ready count in the TUI footer |
+| `beads-session` | Binds pi session to claimed bead: `BEADS_ACTOR`, session name, shutdown handoff notes |
+| `beads-guard` | Blocks/confirm-guards destructive `bd` shell calls (`edit`, `delete`, reason-less/forced `close`) |
+| `beads-tools` | Typed `bd_create` / `bd_update` / `bd_close` / `bd_ready` tools with JSON args |
 
 ## Install
 
@@ -62,6 +65,44 @@ The `/beads` command reports or refreshes the injected context.
 | `BD_BIN` | Path/name of the `bd` binary (default: `bd`) |
 | `PI_BEADS_STATUS_DISABLE=1` | Disable this extension |
 | `BEADS_DIR` | Honored when set to a `.beads` dir or workspace root |
+
+## `beads-session`
+
+- On **`session_start`**, sets `BEADS_ACTOR=pi:<sessionId>` so every `bd`
+  invocation this session makes is attributed to the pi session id in
+  `bd history`/actor fields (restored on shutdown).
+- In a `.beads/` workspace, binds the session to the most recently updated
+  in-progress bead and, when the session has no name yet, names it
+  `<id>: <title>` via `pi.setSessionName()`.
+- On **`session_shutdown`**, appends a resume note to the bound bead with
+  session id, session file, shutdown reason, and leaf id, so the next
+  session picks up exact state.
+- Set `PI_BEADS_SESSION_RENAME=0` to skip renaming,
+  `PI_BEADS_SHUTDOWN_NOTES=0` to skip the shutdown note,
+  `PI_BEADS_SESSION_DISABLE=1` to disable everything.
+
+## `beads-guard`
+
+- On **`tool_call`** for `bash`/`powershell`, inspects `bd` invocations:
+  - `bd edit` — always blocked (opens `$EDITOR` and hangs the agent);
+    use `bd update` flags instead.
+  - `bd delete`, `bd close` without `--reason`, and `--force` overrides
+    require confirmation in TUI sessions and are blocked headless (safe
+    default).
+- Commands are split on shell separators before analysis, so `bd list; bd
+  edit x` is caught too. All other `bd` flows pass through untouched.
+- Set `PI_BEADS_GUARD_DISABLE=1` to disable.
+
+## `beads-tools`
+
+- On **`session_start`** in a `.beads/` workspace, registers typed tools:
+  - `bd_create(title, description?, type?, priority?, parent?)`
+  - `bd_update(id, claim?, status?, assignee?, title?, description?, notes?, append_notes?, priority?)`
+  - `bd_close(ids, reason)` — `reason` is required by the schema
+  - `bd_ready()`
+- Runs `bd` with the workspace root as cwd; results are the CLI output
+  with the exit code in `details`.
+- Set `PI_BEADS_TOOLS_DISABLE=1` to disable.
 
 ### Configuration
 
