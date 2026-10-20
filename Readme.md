@@ -12,6 +12,7 @@ itself.
 | Extension | What it does |
 | --- | --- |
 | `beads-prime` | Injects live `bd prime` context into the system prompt |
+| `beads-status` | Shows active bead + ready count in the TUI footer |
 
 ## Install
 
@@ -43,6 +44,24 @@ pi -e git:github.com/maphew/pi-beads
   spawned there, so it is safe to install globally and use everywhere.
 
 The `/beads` command reports or refreshes the injected context.
+
+## `beads-status`
+
+- On **`session_start`** and **`turn_end`**, finds the nearest `.beads/`
+  workspace (walking up from the current directory, honoring `BEADS_DIR`)
+  and renders the most recently updated in-progress bead plus the `bd ready`
+  count via `ctx.ui.setStatus()`, e.g. `◐ pi-kilo-xg2.1: show active… · ready: 3`.
+- Clears the status on **`session_shutdown`**.
+- No-ops outside a `.beads/` workspace and in non-UI modes (print/RPC):
+  no `bd` process is spawned there.
+
+### Configuration
+
+| Env var | Effect |
+| --- | --- |
+| `BD_BIN` | Path/name of the `bd` binary (default: `bd`) |
+| `PI_BEADS_STATUS_DISABLE=1` | Disable this extension |
+| `BEADS_DIR` | Honored when set to a `.beads` dir or workspace root |
 
 ### Configuration
 

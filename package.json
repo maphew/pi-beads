@@ -25,7 +25,8 @@
   ],
   "pi": {
     "extensions": [
-      "./extensions/beads-prime.ts"
+      "./extensions/beads-prime.ts",
+      "./extensions/beads-status.ts"
     ]
   },
   "peerDependencies": {
