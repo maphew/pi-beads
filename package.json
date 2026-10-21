@@ -1,7 +1,7 @@
 {
   "name": "@maphew/pi-beads",
   "version": "0.1.0",
-  "description": "Pi extensions for Beads (bd): inject the live bd prime workflow context and git-authority policy into the system prompt.",
+  "description": "Pi extensions for Beads (bd): live bd prime workflow context, status, session binding, guardrails, and typed bd tools.",
   "keywords": [
     "pi-package",
     "pi",
@@ -34,5 +34,8 @@
   },
   "peerDependencies": {
     "@earendil-works/pi-coding-agent": "*"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

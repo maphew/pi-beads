@@ -20,13 +20,13 @@ itself.
 ## Install
 
 ```bash
-pi install git:github.com/maphew/pi-beads
+pi install npm:@maphew/pi-beads
 ```
 
-or, once published to npm:
+or directly from git:
 
 ```bash
-pi install npm:@maphew/pi-beads
+pi install git:github.com/maphew/pi-beads
 ```
 
 For a single run without installing:
